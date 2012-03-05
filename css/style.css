@@ -65,7 +65,15 @@ td { vertical-align: top; }
 .chromeframe { margin: 0.2em 0; background: #ccc; color: black; padding: 0.2em 0; }
 
 
+[role="main"] {
+    width:960px;
+    margin:0 auto;
+}
 
+canvas {
+  border:1px solid black;
+  border-radius:5px;
+}
 
 
 
