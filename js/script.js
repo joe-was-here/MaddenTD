@@ -6,7 +6,9 @@ $(document).ready(function() {
 var canvas = document.getElementById('canvas'),
 	ctx = canvas.getContext('2d'),
 	creeps = [],
-	tick = 0;
+	tick = 0,
+	collisionDetection = [],
+	lives = 100;
 
 	function loop() {
     	generateCreeps();
@@ -44,6 +46,8 @@ var canvas = document.getElementById('canvas'),
         	var part = creeps[i];
         	if(part.x > canvas.width) {
             	part.x = 0;
+            	lives -= 1;
+            	$('.remainingLives').html(lives);
         	}
     	}
 	};
@@ -70,6 +74,8 @@ var canvas = document.getElementById('canvas'),
 	};
 
 	setInterval(loop,30);
+
+	$('.remainingLives').html(100);
 
 	function drawCircle(centerX, centerY, radius, strokeColor) {
 		ctx.beginPath();
