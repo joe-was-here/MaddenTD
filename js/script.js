@@ -117,9 +117,22 @@ function placeTower(clickedX, clickedY) {
 	});
 
 	blockedPath.push({
-		left: [clickedX -25, clickedY, clickedY - 25],
+
+        for (i in blockedPath) {
+            
+            var initialConnectionCheck = 
+            [
+                blockedPath[i].left[0] == clickedX - 25 || blockedPath[i].left[0] == clickedX || blockedPath[i].right[0] == clickedX - 25,
+                blockedPath[i].right[0] == clickedX || blockedPath[i].right[0] == clickedX - 25 || blockedPath[i].left[0] == clickedX,
+                blockedPath[i].bottom[0] == clickedY || blockedPath[i].bottom[0] == clickedY - 25 || blockedPath[i].top[0] == clickedY,
+                blockedPath[i].bottom[0] == clickedY || blockedPath[i].bottom[0] == clickedY -25 || blockedPath[i].top[0] == clickedY
+            ];
+
+        }
+
+		left: [clickedX - 25, clickedY, clickedY - 25],
 		right: [clickedX, clickedY, clickedY - 25],
-		top: [clickedY -25, clickedX, clickedX - 25],
+		top: [clickedY - 25, clickedX, clickedX - 25],
 		bottom: [clickedY, clickedX, clickedX - 25]
 	});
 
