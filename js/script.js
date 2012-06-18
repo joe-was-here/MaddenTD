@@ -3,7 +3,7 @@ var canvas = document.getElementById('canvas'),
 	ctx = canvas.getContext('2d'),
 	units = [],
 	tick = 0,
-	collisionDetection = [],
+	blockedPath = [],
 	hp = 1;
 	unitId = 0;
 	offset = $('#canvas').offset();
@@ -24,16 +24,6 @@ function generateUnits() {
         });
         unitId++;
     }
-
-    // if(units.length < 100) {
-    //     units.push({
-    //         x: 0,
-    //         y: Math.random()*canvas.width, //between 0 and canvas width,
-    //         speed: 1.3+Math.random()*1.3, //between 2 and 5
-    //         radius: 5+Math.random()*3, //between 5 and 10
-    //         color: "black"
-    //     });
-    // }
 };
 
 function updateUnits() {
@@ -69,22 +59,6 @@ function drawGrid() {
 		startY += 25;
 	}
 
-	// for (var i = 0; i < endX; i+5) {
-	// 	if (i%10 == 0) {
-	// 		ctx.moveTo(i, 0);
-	// 		ctx.lineTo(i, endY);
-	// 		ctx.strokeStyle = '#b9b9b9';
-	// 		ctx.stroke();
-	// 		ctx.lineWidth = 1;
-	// 		ctx.closePath();
-	// 		ctx.moveTo(0, i);
-	// 		ctx.lineTo(endX, i);
-	// 		ctx.strokeStyle = '#b9b9b9';
-	// 		ctx.stroke();
-	// 		ctx.lineWidth = 1;
-	// 		ctx.closePath();
-	// 	}
-	// };
 };
 
 function killUnits() {
@@ -99,8 +73,11 @@ function killUnits() {
 };
 
 function drawUnits() {
+    
     ctx.fillStyle = "white";
     ctx.fillRect(0,0,canvas.width,canvas.height);
+    
+
     for(var i in units) {
         var part = units[i];
         ctx.beginPath();
@@ -112,9 +89,12 @@ function drawUnits() {
         ctx.fillStyle = part.color;
         ctx.fill();
     }
+
+
 };
 
 function placeTower(clickedX, clickedY) {
+	
 	if (clickedX == 0) {
 		clickedX = 25;
 	} else if (clickedX > 0) {
@@ -136,7 +116,12 @@ function placeTower(clickedX, clickedY) {
 		startingY: clickedY
 	});
 
-	console.log($(towers)[0].startingY);
+	blockedPath.push({
+		left: [clickedX -25, clickedY, clickedY - 25],
+		right: [clickedX, clickedY, clickedY - 25],
+		top: [clickedY -25, clickedX, clickedX - 25],
+		bottom: [clickedY, clickedX, clickedX - 25]
+	});
 
 };
 
@@ -187,19 +172,13 @@ function drawSquare(topLeftX, topLeftY, width, height, strokeColor) {
 		ctx.stroke();
 };
 
-// function drawTowers() { 
-// 	drawSquare(300, 300, 50, 50, 'black');
-// 	drawSquare(400, 400, 50, 50, 'black');
-// 	drawSquare(500, 500, 50, 50, 'black');
-// 	drawSquare(500, 200, 50, 50, 'black');
-// };
-
 $(document).ready(function() {
 
 	var mouseLocX;
 	var mouseLocY;
 
 	$('.mouseLocation').show();
+
 	$('canvas').mousemove(function(e){
 		var x = e.pageX - offset.left,
 			y = e.pageY - offset.top;
@@ -219,6 +198,7 @@ $(document).ready(function() {
 
 	$(canvas).mousedown(function() {
 		placeTower(mouseLocX, mouseLocY);
+		console.log(blockedPath);
 	});
 
 	setInterval(loop,30);
