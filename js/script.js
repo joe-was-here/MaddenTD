@@ -4,9 +4,9 @@ var canvas = document.getElementById('canvas'),
 	units = [],
 	tick = 0,
 	blockedPath = [],
-	hp = 1;
-	unitId = 0;
-	offset = $('#canvas').offset();
+	hp = 1,
+	unitId = 0,
+	offset = $('#canvas').offset(),
 	lives = 100,
 	towers = [];
 
