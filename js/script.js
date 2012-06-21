@@ -3,13 +3,64 @@ var canvas = document.getElementById('canvas'),
 	ctx = canvas.getContext('2d'),
 	units = [],
 	tick = 0,
-	blockedPath = [],
+	blockedX = [],
+    blockedY = [],
 	hp = 1,
 	unitId = 0,
 	offset = $('#canvas').offset(),
 	lives = 100,
 	towers = [];
 
+
+function buildPathingArrays(mapHeight, mapWidth, towerHeight, towerWidth) {
+    var horizontalRows = mapHeight / towerHeight;
+    var verticalRows = mapWidth / towerWidth;
+    var xIterations = Math.floor(horizontalRows / 8);
+    var yIterations = Math.floor(verticalRows / 8);
+    var xLeftover = horizontalRows % 8;
+    var yLeftover = verticalRows % 8;
+    var i = 0;
+    var x = 0;
+    var y = 0;
+
+    if (xLeftover > 0){
+        do {
+            blockedX[x] = towerWidth * x;
+            x++;
+        } while (--leftover > 0);
+    }
+
+    do {
+        blockedX[x++] = towerWidth * x;
+        blockedX[x++] = towerWidth * x;
+        blockedX[x++] = towerWidth * x;
+        blockedX[x++] = towerWidth * x;
+        blockedX[x++] = towerWidth * x;
+        blockedX[x++] = towerWidth * x;
+        blockedX[x++] = towerWidth * x;
+        blockedX[x++] = towerWidth * x;
+    } while (--xIterations > 0);
+
+    if (yLeftover > 0){
+        do {
+            blockedY[x] = towerWidth * x;
+            y++;
+        } while (--leftover > 0);
+    }
+
+    do {
+        blockedY[y++] = towerHeight * y;
+        blockedY[y++] = towerHeight * y;
+        blockedY[y++] = towerHeight * y;
+        blockedY[y++] = towerHeight * y;
+        blockedY[y++] = towerHeight * y;
+        blockedY[y++] = towerHeight * y;
+        blockedY[y++] = towerHeight * y;
+        blockedY[y++] = towerHeight * y;
+    } while (--yIterations > 0);    
+    
+
+};
 
 function generateUnits() {
     //add particle if fewer than 100
@@ -116,26 +167,6 @@ function placeTower(clickedX, clickedY) {
 		startingY: clickedY
 	});
 
-	blockedPath.push({
-
-        for (i in blockedPath) {
-            
-            var initialConnectionCheck = 
-            [
-                blockedPath[i].left[0] == clickedX - 25 || blockedPath[i].left[0] == clickedX || blockedPath[i].right[0] == clickedX - 25,
-                blockedPath[i].right[0] == clickedX || blockedPath[i].right[0] == clickedX - 25 || blockedPath[i].left[0] == clickedX,
-                blockedPath[i].bottom[0] == clickedY || blockedPath[i].bottom[0] == clickedY - 25 || blockedPath[i].top[0] == clickedY,
-                blockedPath[i].bottom[0] == clickedY || blockedPath[i].bottom[0] == clickedY -25 || blockedPath[i].top[0] == clickedY
-            ];
-
-        }
-
-		left: [clickedX - 25, clickedY, clickedY - 25],
-		right: [clickedX, clickedY, clickedY - 25],
-		top: [clickedY - 25, clickedX, clickedX - 25],
-		bottom: [clickedY, clickedX, clickedX - 25]
-	});
-
 };
 
 function drawTowers() {
@@ -189,6 +220,8 @@ $(document).ready(function() {
 
 	var mouseLocX;
 	var mouseLocY;
+
+    buildPathingArrays(canvas.height, canvas.width, 25, 25);
 
 	$('.mouseLocation').show();
 
