@@ -26,40 +26,43 @@ function buildPathingArrays(mapHeight, mapWidth, towerHeight, towerWidth) {
 
     if (xLeftover > 0){
         do {
-            blockedX[x] = towerWidth * x;
+            blockedX[x] = [towerWidth * x, 0];
             x++;
-        } while (--leftover > 0);
+        } while (--xLeftover > 0);
     }
 
     do {
-        blockedX[x++] = towerWidth * x;
-        blockedX[x++] = towerWidth * x;
-        blockedX[x++] = towerWidth * x;
-        blockedX[x++] = towerWidth * x;
-        blockedX[x++] = towerWidth * x;
-        blockedX[x++] = towerWidth * x;
-        blockedX[x++] = towerWidth * x;
-        blockedX[x++] = towerWidth * x;
+        blockedX[x++] = [towerWidth * x, 0];
+        blockedX[x++] = [towerWidth * x, 0];
+        blockedX[x++] = [towerWidth * x, 0];
+        blockedX[x++] = [towerWidth * x, 0];
+        blockedX[x++] = [towerWidth * x, 0];
+        blockedX[x++] = [towerWidth * x, 0];
+        blockedX[x++] = [towerWidth * x, 0];
+        blockedX[x++] = [towerWidth * x, 0];
     } while (--xIterations > 0);
 
     if (yLeftover > 0){
         do {
-            blockedY[x] = towerWidth * x;
+            blockedY[y] = [towerHeight * y, 0];
             y++;
-        } while (--leftover > 0);
+        } while (--yLeftover > 0);
     }
 
     do {
-        blockedY[y++] = towerHeight * y;
-        blockedY[y++] = towerHeight * y;
-        blockedY[y++] = towerHeight * y;
-        blockedY[y++] = towerHeight * y;
-        blockedY[y++] = towerHeight * y;
-        blockedY[y++] = towerHeight * y;
-        blockedY[y++] = towerHeight * y;
-        blockedY[y++] = towerHeight * y;
+        blockedY[y++] = [towerHeight * y, 0];
+        blockedY[y++] = [towerHeight * y, 0];
+        blockedY[y++] = [towerHeight * y, 0];
+        blockedY[y++] = [towerHeight * y, 0];
+        blockedY[y++] = [towerHeight * y, 0];
+        blockedY[y++] = [towerHeight * y, 0];
+        blockedY[y++] = [towerHeight * y, 0];
+        blockedY[y++] = [towerHeight * y, 0];
     } while (--yIterations > 0);    
     
+    console.log(blockedX);
+    console.log(blockedY);
+
 
 };
 
@@ -168,26 +171,22 @@ function placeTower(clickedX, clickedY) {
 		startingY: clickedY
 	});
 
-<<<<<<< HEAD
-=======
-	blockedPath.push({
+	// blockedPath.push({
 
-		for (i in blockedPath) {
-			if (blockedPath[i].left[0] == clickedX - 25) {
-				blockedPath[i].left[1];
-				blockedPath[i].left[2];
-				blockedPath[i].left.splice(1, 2,)
-			}
-		}	
+	// 	for (i in blockedPath) {
+	// 		if (blockedPath[i].left[0] == clickedX - 25) {
+	// 			blockedPath[i].left[1];
+	// 			blockedPath[i].left[2];
+	// 			blockedPath[i].left.splice(1, 2,)
+	// 		}
+	// 	}	
 
-		left: [clickedX - 25, clickedY, clickedY - 25],
-		right: [clickedX, clickedY, clickedY - 25],
-		top: [clickedY - 25, clickedX, clickedX - 25],
-		bottom: [clickedY, clickedX, clickedX - 25]
+	// 	left: [clickedX - 25, clickedY, clickedY - 25],
+	// 	right: [clickedX, clickedY, clickedY - 25],
+	// 	top: [clickedY - 25, clickedX, clickedX - 25],
+	// 	bottom: [clickedY, clickedX, clickedX - 25]
 
-	});
-
->>>>>>> Merge-master-and-tower-lookup
+	// });
 };
 
 function drawTowers() {
