@@ -8,7 +8,8 @@ var canvas = document.getElementById('canvas'),
 	unitId = 0;
 	offset = $('#canvas').offset();
 	lives = 100,
-	towers = [];
+	towers = [],
+	runScript = false;
 
 
 function generateUnits() {
@@ -16,7 +17,7 @@ function generateUnits() {
     while (unitId < 100) {
         units.push({
             x: 0,
-            y: Math.random()*canvas.width, //between 0 and canvas width
+            y: 350 - (Math.random() * 100), //between 0 and canvas width
             speed: .5+Math.random()*.4, //between 2 and 5
             radius: 5+Math.random()*2, //between 5 and 10
             color: "black",
@@ -117,10 +118,20 @@ function placeTower(clickedX, clickedY) {
 	});
 
 	blockedPath.push({
-		left: [clickedX -25, clickedY, clickedY - 25],
+
+		for (i in blockedPath) {
+			if (blockedPath[i].left[0] == clickedX - 25) {
+				blockedPath[i].left[1];
+				blockedPath[i].left[2];
+				blockedPath[i].left.splice(1, 2,)
+			}
+		}	
+
+		left: [clickedX - 25, clickedY, clickedY - 25],
 		right: [clickedX, clickedY, clickedY - 25],
-		top: [clickedY -25, clickedX, clickedX - 25],
+		top: [clickedY - 25, clickedX, clickedX - 25],
 		bottom: [clickedY, clickedX, clickedX - 25]
+
 	});
 
 };
@@ -144,6 +155,18 @@ function drawTowers() {
 		ctx.strokeStyle =  'black';
 		ctx.stroke();
 
+	}
+};
+
+function appControl(switchButton) {
+	if (switchButton.attr('id') == 'switchOn') {
+		runScript = true;
+		switchButton.attr('id', 'switchOff');
+		switchButton.html('On');
+	} else {
+		runScript = false;
+		switchButton.attr('id', 'switchOn');
+		switchButton.html('Off');
 	}
 };
 
@@ -187,13 +210,22 @@ $(document).ready(function() {
 			$('.mouseLocation').html('x = ' + x +', y = ' + y);
 	});
 
+	$('.switcher').click(function() {
+		var that = $(this);
+		appControl(that);
+	});
+
 	function loop() {
-    	generateUnits();
-    	updateUnits();
-    	killUnits();
-    	drawUnits();
-    	drawGrid();
-    	drawTowers();
+		if (runScript) {
+	    	generateUnits();
+	    	updateUnits();
+	    	killUnits();
+	    	drawUnits();
+	    	drawGrid();
+	    	drawTowers();
+	    } else {
+	    	return false;
+	    }
 	};
 
 	$(canvas).mousedown(function() {
@@ -204,10 +236,6 @@ $(document).ready(function() {
 	setInterval(loop,30);
 
 	$('.remainingLives').html(100);
-
-	function creepWave(numberOfUnits, speedOfUnits, defenseOfUnits, doUnitsFly) {
-
-	};
 
 
 });
