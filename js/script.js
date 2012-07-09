@@ -23,6 +23,7 @@ function buildPathingArrays(mapHeight, mapWidth, towerHeight, towerWidth) {
     var i = 0;
     var x = 0;
     var y = 0;
+    var iY = 1;
 
     if (xLeftover > 0) {
         do {
@@ -44,8 +45,9 @@ function buildPathingArrays(mapHeight, mapWidth, towerHeight, towerWidth) {
 
     if (yLeftover > 0) {
         do {
-            blockedY[y] = towerHeight * y;
+            blockedY[y] = towerHeight * iY;
             y++;
+            iY++;
         } while (--yLeftover > 0);
     }
 
@@ -168,11 +170,14 @@ function placeTower(clickedX, clickedY, towerWidth, towerHeight) {
 		startingY: clickedY
 	});
 
-    var xPosition = clickedX / towerWidth;
-    var yPosition = clickedY / towerHeight;
+    var xPosition = (clickedX / towerWidth) - 1;
+    var yPosition = (clickedY / towerHeight) - 1;
 
-    blockedX[xPosition] = 1;
-    blockedY[yPosition] = 1;
+    console.log(xPosition + 'xpos');
+    console.log(yPosition + 'ypos');
+
+    blockedX[yPosition] = 1;
+    blockedY[xPosition] = 1;
 
 };
 
