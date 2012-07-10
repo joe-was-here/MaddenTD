@@ -75,9 +75,9 @@ function generateUnits() {
     while (unitId < 100) {
         units.push({
             x: 0,
-            y: 350 - (Math.random() * 100), //between 0 and canvas width
-            speed: .5+Math.random()*.4, //between 2 and 5
-            radius: 5+Math.random()*2, //between 5 and 10
+            y: 350 - (Math.random() * 100), //between 250 and 350
+            speed: .5 + Math.random() * .4, //between 2 and 5
+            radius: 5 + Math.random() * 2, //between 5 and 10
             color: "black",
             id: unitId
         });
@@ -250,11 +250,11 @@ function drawLine(startingPointX, startingPointY, endingPointX, endingPointY, st
 }
 
 function drawSquare(topLeftX, topLeftY, width, height, strokeColor) {
-		ctx.beginPath();
-		ctx.rect(topLeftX, topLeftY, width, height);
-		ctx.closePath();
-		ctx.strokeStyle = strokeColor;
-		ctx.stroke();
+	ctx.beginPath();
+	ctx.rect(topLeftX, topLeftY, width, height);
+	ctx.closePath();
+	ctx.strokeStyle = strokeColor;
+	ctx.stroke();
 };
 
 $(document).ready(function() {
