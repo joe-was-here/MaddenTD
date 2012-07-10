@@ -24,23 +24,25 @@ function buildPathingArrays(mapHeight, mapWidth, towerHeight, towerWidth) {
     var x = 0;
     var y = 0;
     var iY = 1;
+    var iX = 1;
 
     if (xLeftover > 0) {
         do {
-            blockedX[x] = [towerWidth * x, 0];
+            blockedX[x] = towerWidth * iX;
             x++;
+            iX++;
         } while (--xLeftover > 0);
     }
 
     do {
-        blockedX[x++] = [towerWidth * x, 0];
-        blockedX[x++] = [towerWidth * x, 0];
-        blockedX[x++] = [towerWidth * x, 0];
-        blockedX[x++] = [towerWidth * x, 0];
-        blockedX[x++] = [towerWidth * x, 0];
-        blockedX[x++] = [towerWidth * x, 0];
-        blockedX[x++] = [towerWidth * x, 0];
-        blockedX[x++] = [towerWidth * x, 0];
+        blockedX[x++] = towerWidth * x;
+        blockedX[x++] = towerWidth * x;
+        blockedX[x++] = towerWidth * x;
+        blockedX[x++] = towerWidth * x;
+        blockedX[x++] = towerWidth * x;
+        blockedX[x++] = towerWidth * x;
+        blockedX[x++] = towerWidth * x;
+        blockedX[x++] = towerWidth * x;
     } while (--xIterations > 0);
 
     if (yLeftover > 0) {
@@ -52,14 +54,14 @@ function buildPathingArrays(mapHeight, mapWidth, towerHeight, towerWidth) {
     }
 
     do {
-        blockedY[y++] = [towerHeight * y, 0];
-        blockedY[y++] = [towerHeight * y, 0];
-        blockedY[y++] = [towerHeight * y, 0];
-        blockedY[y++] = [towerHeight * y, 0];
-        blockedY[y++] = [towerHeight * y, 0];
-        blockedY[y++] = [towerHeight * y, 0];
-        blockedY[y++] = [towerHeight * y, 0];
-        blockedY[y++] = [towerHeight * y, 0];
+        blockedY[y++] = towerHeight * y;
+        blockedY[y++] = towerHeight * y;
+        blockedY[y++] = towerHeight * y;
+        blockedY[y++] = towerHeight * y;
+        blockedY[y++] = towerHeight * y;
+        blockedY[y++] = towerHeight * y;
+        blockedY[y++] = towerHeight * y;
+        blockedY[y++] = towerHeight * y;
     } while (--yIterations > 0);    
     
     console.log(blockedX);
@@ -84,9 +86,24 @@ function generateUnits() {
 };
 
 function updateUnits() {
-	for(var i in units) {
-    	var part = units[i];
-    	part.x += part.speed;
+
+	var towerWidth = blockedX[1] - blockedX[0];
+	var towerHeight = blockedY[1] - blockedY[0];
+
+	for (var i in units) {
+		var part = units[i];
+		var nearestVerticalWall = part.speed > 0 ? Math.ceil(part.x / towerHeight) * towerHeight : Math.floor(part.x / towerHeight) * towerHeight;
+		var nearestHorizontalWall = part.speed > 0 ? Math.floor(part.y / towerWidth) * towerWidth : Math.ceil(part.y / towerWidth) * towerWidth;
+		var nearestVerticalWallArrayNum = nearestVerticalWall / 25;
+		var nearestHorizontalWallArrayNum = nearestHorizontalWall / 25;
+		var nearestVerticalWallBlocked = blockedY[nearestVerticalWallArrayNum] === 1 ? true : false;
+		var nearestHorizontalWallBlocked = blockedX[nearestHorizontalWallArrayNum] === 1 ? true : false;
+
+		if (nearestVerticalWallBlocked === true && nearestHorizontalWallBlocked === true) {
+			part.y += part.speed;
+		} else {
+			part.x += part.speed;
+		}
 	}
 };
 
@@ -175,9 +192,6 @@ function placeTower(clickedX, clickedY, towerWidth, towerHeight) {
 
     var xPosition = (clickedX / towerWidth) - 1;
     var yPosition = (clickedY / towerHeight) - 1;
-
-    console.log(xPosition + 'xpos');
-    console.log(yPosition + 'ypos');
 
     blockedX[yPosition] = 1;
     blockedY[xPosition] = 1;
