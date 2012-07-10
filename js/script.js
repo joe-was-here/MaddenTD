@@ -23,8 +23,9 @@ function buildPathingArrays(mapHeight, mapWidth, towerHeight, towerWidth) {
     var i = 0;
     var x = 0;
     var y = 0;
+    var iY = 1;
 
-    if (xLeftover > 0){
+    if (xLeftover > 0) {
         do {
             blockedX[x] = [towerWidth * x, 0];
             x++;
@@ -42,10 +43,11 @@ function buildPathingArrays(mapHeight, mapWidth, towerHeight, towerWidth) {
         blockedX[x++] = [towerWidth * x, 0];
     } while (--xIterations > 0);
 
-    if (yLeftover > 0){
+    if (yLeftover > 0) {
         do {
-            blockedY[y] = [towerHeight * y, 0];
+            blockedY[y] = towerHeight * iY;
             y++;
+            iY++;
         } while (--yLeftover > 0);
     }
 
@@ -148,20 +150,20 @@ function drawUnits() {
 
 };
 
-function placeTower(clickedX, clickedY) {
+function placeTower(clickedX, clickedY, towerWidth, towerHeight) {
 	
 	if (clickedX == 0) {
-		clickedX = 25;
+		clickedX = towerWidth;
 	} else if (clickedX > 0) {
-		clickedX = Math.ceil(clickedX/25) * 25;
+		clickedX = Math.ceil(clickedX/towerWidth) * towerWidth;
 	} else if (clickedX == ctx.height) {
 		clickedX = ctx.height;
 	}
 
 	if (clickedY == 0) {
-		clickedY = 25;
+		clickedY = towerHeight;
 	} else if (clickedY > 0) {
-		clickedY = Math.ceil(clickedY/25) * 25;
+		clickedY = Math.ceil(clickedY/towerHeight) * towerHeight;
 	} else if (clickedY == ctx.height) {
 		clickedY = ctx.height;
 	}
@@ -171,22 +173,15 @@ function placeTower(clickedX, clickedY) {
 		startingY: clickedY
 	});
 
-	// blockedPath.push({
+    var xPosition = (clickedX / towerWidth) - 1;
+    var yPosition = (clickedY / towerHeight) - 1;
 
-	// 	for (i in blockedPath) {
-	// 		if (blockedPath[i].left[0] == clickedX - 25) {
-	// 			blockedPath[i].left[1];
-	// 			blockedPath[i].left[2];
-	// 			blockedPath[i].left.splice(1, 2,)
-	// 		}
-	// 	}	
+    console.log(xPosition + 'xpos');
+    console.log(yPosition + 'ypos');
 
-	// 	left: [clickedX - 25, clickedY, clickedY - 25],
-	// 	right: [clickedX, clickedY, clickedY - 25],
-	// 	top: [clickedY - 25, clickedX, clickedX - 25],
-	// 	bottom: [clickedY, clickedX, clickedX - 25]
+    blockedX[yPosition] = 1;
+    blockedY[xPosition] = 1;
 
-	// });
 };
 
 function drawTowers() {
@@ -284,8 +279,9 @@ $(document).ready(function() {
 	};
 
 	$(canvas).mousedown(function() {
-		placeTower(mouseLocX, mouseLocY);
-		console.log(blockedPath);
+		placeTower(mouseLocX, mouseLocY, 25, 25);
+		console.log(blockedX);
+        console.log(blockedY);
 	});
 
 	setInterval(loop,30);
