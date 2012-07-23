@@ -21,25 +21,27 @@ Unit checks for obstacles
 */
 
 function whichWayShouldIGo() {
-    switch (direction) {
+    
+    if (typeof nextBlock === 'object') {
         
-        case 'up':
-            break;
-        
-        case 'down':
-            break;
-        
-        case 'left':
-            break;
-        
-        default:
-            if (nextBlock === 'blocked') {
-                if (nextBlock.wallConnected) {
-                    nextBlock.wallConnected === 'top' ? direction = 'down' : direction = 'up';
-                } else {
-                    nextBlock.midPoint >= currPosition.y ? direction = 'up' : direction = 'down';
-                }
-            }
-            break;
-    } 
+        this.prevDirection = this.direction;
+        switch (direction) {
+            
+            case 'up':
+                break;
+            
+            case 'down':
+                break;
+            
+            case 'left':
+                nextBlock.midPoint >= currPosition.y ? this.direction = 'up' : this.direction = 'down';
+                break;
+            
+            default:
+                nextBlock.midPoint >= currPosition.y ? this.direction = 'up' : this.direction = 'down';
+                break;
+        }
+    } else {
+        direction = 'right';
+    }
 };
