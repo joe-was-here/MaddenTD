@@ -1,5 +1,5 @@
 /* Author:
-Faggle
+Joe
 */
 
 $(document).ready(function() {
